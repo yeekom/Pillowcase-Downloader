@@ -3,26 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pillowcase Link Converter</title>
+  <title>Pillowcase Link Converter & Downloader</title>
 </head>
 <body>
-  <h1>Pillowcase Link Converter</h1>
+  <h1>Pillowcase Link Converter & Downloader</h1>
   <input type="text" id="originalLink" placeholder="Enter Pillowcase link" style="width: 100%; padding: 10px;">
-  <button id="convertButton" style="margin-top: 10px; padding: 10px;">Convert</button>
-  <p id="result" style="margin-top: 20px; font-weight: bold;"></p>
+  <button id="convertButton" style="margin-top: 10px; padding: 10px;">Download</button>
+  <p id="status" style="margin-top: 20px; font-weight: bold;"></p>
 
   <script>
     document.getElementById('convertButton').addEventListener('click', () => {
-      const inputLink = document.getElementById('originalLink').value;
-      const match = inputLink.match(/https:\/\/pillowcase\.su\/f\/(\w+)/);
+        const inputLink = document.getElementById('originalLink').value;
+        const match = inputLink.match(/https:\/\/pillowcase\.su\/f\/(\w+)/);
 
-      if (match) {
-        const id = match[1];
-        const downloadLink = `https://api.pillowcase.su/api/download/${id}`;
-        document.getElementById('result').innerHTML = `Converted Link: <a href="${downloadLink}" target="_blank">${downloadLink}</a>`;
-      } else {
-        document.getElementById('result').textContent = "Invalid link. Please enter a valid Pillowcase link.";
-      }
+        if (match) {
+            const id = match[1];
+            const downloadLink = `https://api.pillowcase.su/api/download/${id}`;
+
+            const a = document.createElement('a');
+            a.href = downloadLink;
+            a.download = "";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
+            document.getElementById('status').textContent = "Download should start automatically.";
+        } else {
+            document.getElementById('status').textContent = "Invalid link. Please enter a valid Pillowcase link.";
+        }
     });
   </script>
 </body>
